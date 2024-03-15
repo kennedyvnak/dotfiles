@@ -1,0 +1,15 @@
+#!/bin/bash
+
+selected=$(ls ~/Pictures/wallpapers | while read A ; do  echo -en "$A\x00icon\x1f~/Pictures/wallpapers/$A\n" ; done | rofi -dmenu)
+
+echo $selected
+
+if [ -z $selected ]; then
+    echo "Haven't selected any wallpaper."
+    exit 0
+fi
+
+cp -r ~/Pictures/wallpapers/$selected ~/.config/qtile/current_wallpaper.jpg
+echo "File $selected copied to ~/.config/qtile/current_wallpaper.jpg sucessfully"
+
+qtile cmd-obj -o cmd -f restart
